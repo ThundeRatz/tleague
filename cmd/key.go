@@ -9,14 +9,13 @@ import (
 )
 
 func init() {
-	snapshotCmd.AddCommand(snapshotListCmd)
-	rootCmd.AddCommand(snapshotCmd)
+	keyCmd.AddCommand(keyListCmd)
+	rootCmd.AddCommand(keyCmd)
 }
 
-var snapshotCmd = &cobra.Command{
-	Use:     "snapshot",
-	Short:   "snapshot utilities",
-	Aliases: []string{"snap"},
+var keyCmd = &cobra.Command{
+	Use:   "key",
+	Short: "key utilities",
 
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		checkTokenPresent()
@@ -25,20 +24,20 @@ var snapshotCmd = &cobra.Command{
 	},
 }
 
-var snapshotListCmd = &cobra.Command{
+var keyListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "list account snapshots",
+	Short: "list created keys",
 
 	Run: func(cmd *cobra.Command, args []string) {
 		ifVerbose("Authenticating and finding snapshots...")
-		snapshots, err := c.SnapshotList()
+		keys, err := c.KeyList()
 		cobra.CheckErr(err)
 		ifVerbose("Done...")
 
-		fmt.Println("Snapshots:")
+		fmt.Println("keys:")
 
-		for _, d := range snapshots {
-			fmt.Println(d.ID, d.Name)
+		for _, k := range keys {
+			fmt.Println(k.ID, k.Name)
 		}
 	},
 }

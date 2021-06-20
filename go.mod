@@ -6,6 +6,10 @@ require (
 	github.com/digitalocean/godo v1.62.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/lunixbochs/vtclean v1.0.0 // indirect
+	github.com/manifoldco/promptui v0.8.0 // indirect
+	github.com/mattn/go-colorable v0.1.8 // indirect
+	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/spf13/cobra v1.1.3 // indirect
 	github.com/spf13/viper v1.8.0 // indirect

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -58,5 +59,14 @@ func onInit() {
 func ifVerbose(o string) {
 	if verbose {
 		fmt.Println(o)
+	}
+}
+
+func checkTokenPresent() {
+	token := viper.GetString("token")
+	if token == "" {
+		fmt.Println("[ERR] Couldn't find token!")
+		fmt.Println("[ERR] Make sure it is set on the config file or via --token")
+		os.Exit(1)
 	}
 }
