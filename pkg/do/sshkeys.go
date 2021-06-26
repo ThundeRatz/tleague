@@ -41,7 +41,7 @@ func (c *Client) KeyList() ([]godo.Key, error) {
 	return list, nil
 }
 
-func (c *Client) GetKeyByName(name string) (*godo.Key, error) {
+func (c *Client) KeyGetByName(name string) (*godo.Key, error) {
 	keys, err := c.KeyList()
 
 	if err != nil {
@@ -57,7 +57,7 @@ func (c *Client) GetKeyByName(name string) (*godo.Key, error) {
 	return nil, errors.New("key not found")
 }
 
-func (c *Client) CreateDefaultKey(name string) (*godo.Key, error) {
+func (c *Client) KeyCreateDefault(name string) (*godo.Key, error) {
 	key, _, err := c.do.Keys.Create(ctx.Background(), &godo.KeyCreateRequest{
 		Name:      name,
 		PublicKey: defaultTleagueKeyPub,

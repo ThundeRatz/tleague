@@ -66,7 +66,7 @@ var dropletCreateCmd = &cobra.Command{
 		fmt.Println("> Found snapshot with ID", snap.ID)
 
 		fmt.Println("> Finding SSH Key", viper.GetString("key"))
-		key, err := c.GetKeyByName(viper.GetString("key"))
+		key, err := c.KeyGetByName(viper.GetString("key"))
 
 		if err != nil {
 			prompt := promptui.Select{
@@ -78,7 +78,7 @@ var dropletCreateCmd = &cobra.Command{
 
 			if result == "Yes" {
 				fmt.Println("> Creating SSH Key", viper.GetString("key"))
-				key, err = c.CreateDefaultKey(viper.GetString("key"))
+				key, err = c.KeyCreateDefault(viper.GetString("key"))
 			}
 		}
 
