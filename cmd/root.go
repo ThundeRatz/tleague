@@ -52,8 +52,8 @@ func onInit() {
 
 	viper.AutomaticEnv()
 
-	err := viper.ReadInConfig()
-	cobra.CheckErr(err)
+	_ = viper.ReadInConfig()
+	// cobra.CheckErr(err)
 }
 
 func ifVerbose(o string) {
