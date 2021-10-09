@@ -21,6 +21,7 @@ func init() {
 	viper.BindPFlag("key", dropletCreateCmd.Flags().Lookup("key"))
 
 	dropletCmd.AddCommand(dropletListCmd)
+	dropletCmd.AddCommand(dropletDestroyCmd)
 	dropletCmd.AddCommand(dropletCreateCmd)
 
 	rootCmd.AddCommand(dropletCmd)
@@ -42,15 +43,19 @@ var dropletListCmd = &cobra.Command{
 	Short: "list created droplets",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		ifVerbose("Authenticating and finding snapshots...")
+		fmt.Println("> Authenticating and finding droplets...")
 		droplets, err := c.DropletList()
 		cobra.CheckErr(err)
-		ifVerbose("Done...")
+
+		if len(droplets) == 0 {
+			fmt.Println("Nenhum droplet encontrado")
+			return
+		}
 
 		fmt.Println("Droplets:")
 
 		for _, d := range droplets {
-			fmt.Println(d.ID, d.Name)
+			fmt.Println(d.ID, d.Name, do.DropletGetPublicIP(d))
 		}
 	},
 }
@@ -89,5 +94,38 @@ var dropletCreateCmd = &cobra.Command{
 		drop, err := c.DropletCreateC32(viper.GetString("droplet"), snap.ID, key.ID)
 		cobra.CheckErr(err)
 		fmt.Println("> Droplet", drop.Name, "created with ID", drop.ID)
+	},
+}
+
+var dropletDestroyCmd = &cobra.Command{
+	Use:   "destroy",
+	Short: "destroy a droplet by name",
+
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("> Getting droplet list")
+		droplets, err := c.DropletList()
+		cobra.CheckErr(err)
+
+		for _, droplet := range droplets {
+			if droplet.Name != viper.GetString("droplet") {
+				continue
+			}
+
+			prompt := promptui.Select{
+				Label: fmt.Sprintf("Destroy droplet %d?", droplet.ID),
+				Items: []string{"Yes", "No"},
+			}
+			_, result, perr := prompt.Run()
+			cobra.CheckErr(perr)
+
+			if result == "Yes" {
+				fmt.Println("> Destroying droplet", droplet.ID)
+				err := c.DropletDestroy(droplet.ID)
+				if err != nil {
+					fmt.Println("Failed to delete droplet", err)
+				}
+				fmt.Println("> Done")
+			}
+		}
 	},
 }

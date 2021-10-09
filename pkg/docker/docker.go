@@ -10,7 +10,7 @@ import (
 	"github.com/docker/docker/pkg/jsonmessage"
 )
 
-func BuildImage(path string, dockerfile string, tag string) error {
+func BuildImage(path, dockerfile, tag string) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 

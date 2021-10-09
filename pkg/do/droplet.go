@@ -58,3 +58,19 @@ func (c *Client) DropletCreateC32(name, snapshotID string, sshKeyID int) (*godo.
 
 	return droplet, nil
 }
+
+func (c *Client) DropletDestroy(dropletID int) error {
+	_, err := c.do.Droplets.Delete(ctx.Background(), dropletID)
+
+	return err
+}
+
+func DropletGetPublicIP(d godo.Droplet) string {
+	for _, net := range d.Networks.V4 {
+		if net.Type == "public" {
+			return net.IPAddress
+		}
+	}
+
+	return ""
+}

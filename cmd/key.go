@@ -29,10 +29,9 @@ var keyListCmd = &cobra.Command{
 	Short: "list created keys",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		ifVerbose("Authenticating and finding snapshots...")
+		fmt.Println("> Authenticating and finding keys...")
 		keys, err := c.KeyList()
 		cobra.CheckErr(err)
-		ifVerbose("Done...")
 
 		fmt.Println("keys:")
 

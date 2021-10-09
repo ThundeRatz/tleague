@@ -14,7 +14,7 @@ var imageTag string
 func init() {
 	buildCmd.Flags().StringVarP(&path, "path", "p", ".", `caminho da pasta para buildar (default ".")`)
 	buildCmd.Flags().StringVarP(&dockerfile, "dockerfile", "f", "tests.Dockerfile", `nome do dockerfile dentro da pasta (default "tests.Dockerfile")`)
-	buildCmd.Flags().StringVarP(&imageTag, "tag", "t", "teste", `image tag (default "teste")`)
+	buildCmd.Flags().StringVar(&imageTag, "tag", "teste", `image tag (default "teste")`)
 
 	rootCmd.AddCommand(buildCmd)
 }

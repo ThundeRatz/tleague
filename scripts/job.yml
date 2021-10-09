@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tleague
+  namespace: default
+spec:
+  completions: 100
+  parallelism: 10
+  template:
+    metadata:
+      name: tleague-job
+    spec:
+      containers:
+        - name: tleague
+          image: docker.thunderatz.org/tleague_tests:133bce9
+          imagePullPolicy: Always
+          command: ["./tleague", "run", "-q", "10"]
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: docr
